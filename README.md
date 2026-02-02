@@ -6,20 +6,33 @@ A local-first, multi-agent Mental Wellness AI system built with LangGraph. Imple
 
 ## Architecture
 User Input
+
 ↓
+
 Supervisor Agent (Safety & Routing)
+
 ↓
+
 Planner Agent (Task Decomposition)
+
 ↓
+
 Executor Agents (Parallel Execution)
+
 ├─ Emotion Reflection Agent
+
 ├─ Coping Strategy Agent
+
 └─ Resource Agent
+
 ↓
+
 Aggregator Agent (Response Composition)
+
 ↓
+
 Final Wellness Response
-Copy
+
 
 ## Prerequisites
 
@@ -51,17 +64,8 @@ cp .env.example .env
 
 # 6. Run the agent
 python main.py
-macOS/Linux Quick Start
-bash
-Copy
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-# Edit .env with your OpenAI key
-python main.py
+
 Project Structure
-Copy
 mental-wellness-agent/
 ├── agents/
 │   ├── __init__.py
@@ -78,27 +82,25 @@ mental-wellness-agent/
 ├── .env.example                # Environment template
 ├── .gitignore                  # Git ignore rules
 └── README.md                   # This file
+
 Configuration
 Edit .env file:
 env
-Copy
+
 OPENAI_API_KEY=sk-your-openai-api-key-here
 OPENAI_MODEL=gpt-4o-mini      # Options: gpt-4o-mini, gpt-4, gpt-3.5-turbo
 TEMPERATURE=0.7               # 0.0-1.0 (lower = more focused/deterministic)
+
 Usage
+
 Interactive Mode
-bash
-Copy
 python main.py
 Then type how you're feeling when prompted.
-Single Query Mode
-bash
-Copy
-python main.py "I'm feeling stressed about my presentation tomorrow"
-Debug Mode (shows full workflow state)
-bash
-Copy
-python main.py --debug
+
+Single Query Mode --> python main.py "I'm feeling stressed about my presentation tomorrow"
+
+Debug Mode (shows full workflow state) --> python main.py --debug
+
 Example Interaction
 Input:
 I'm feeling overwhelmed with my workload and can't focus on anything.
@@ -138,11 +140,13 @@ Medical Guardrails: Blocks requests for diagnosis, medication advice, or clinica
 Crisis Detection: Recognizes crisis language and provides immediate resources
 Non-Diagnostic: All responses include appropriate disclaimers
 Optional Tone: All suggestions presented as optional, not prescriptive
+
+
 Extending the System
 Adding a New Sub-Agent
 Create agents/new_agent.py:
 Python
-Copy
+
 from .base import BaseAgent
 
 class NewAgent(BaseAgent):
@@ -150,22 +154,13 @@ class NewAgent(BaseAgent):
         # Your logic here
         return {"result": "output"}
 Register in graph.py:
+
 Import the agent
 Add node: workflow.add_node("new_agent", node_function)
 Update planner logic in agents/planner.py
 Add edges connecting to aggregator
 Modifying Safety Rules
-Edit agents/supervisor.py to adjust:
-Crisis keywords detection
-Medical advice boundaries
-Routing logic
-Troubleshooting
-Error: ModuleNotFoundError: No module named 'langchain.prompts'
-Fix: Update agents/base.py line 5 to: from langchain_core.prompts import ChatPromptTemplate
-Error: Input to ChatPromptTemplate is missing variables
-Fix: Ensure all JSON examples in SYSTEM_PROMPT strings use double braces {{ and }} instead of single { }
-Error: OPENAI_API_KEY not found
-Fix: Ensure .env file exists and contains your key, or set environment variable directly
+
 Disclaimer
 This agent is designed for general wellness support only. It does not provide medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
 If you're in crisis:
