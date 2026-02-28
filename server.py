@@ -33,6 +33,14 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {
+        "status": "ok",
+        "docs": "/docs",
+        "playground": "/wellness/playground/",
+    }
+
 add_routes(
     app,
     wellness_graph.with_types(input_type=WellnessInput),
